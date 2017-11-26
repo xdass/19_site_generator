@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<div class="list-group">
+    <h1>Разделы</h1>
+    {% for topic in topics -%}
+        <a href="{{ topic.slug }}" class="list-group-item">{{ topic.title }}</a>
+    {% endfor -%}
+</div>
+{% endblock %}
