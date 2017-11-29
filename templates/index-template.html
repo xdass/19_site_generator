@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block main %}
+    <h1 class="text-center">{{ title }}</h1>
+    <hr>
+  {% for item in config|batch(3) %}
+    <div class="row">
+        {% for i in item %}
+        <div class="col-md-4">
+          <h4>{{ i.title }}</h4>
+          <ul class="list-group">
+            {% for tps in topics[i.slug] -%}
+                <a href="{{ tps[1] }}" class="list-group-item">{{ tps[0] }}</a>
+            {% endfor -%}
+          </ul>
+        </div>
+        {% endfor %}
+    </div>
+  {% endfor %}
+{% endblock %}
