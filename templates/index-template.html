@@ -5,14 +5,14 @@
 {% block main %}
     <h1 class="text-center">{{ title }}</h1>
     <hr>
-  {% for item in config|batch(3) %}
+  {% for topic in topics|batch(3) %}
     <div class="row">
-        {% for i in item %}
+        {% for tpc in topic %}
         <div class="col-md-4">
-          <h4>{{ i.title }}</h4>
+          <h4>{{ tpc.title }}</h4>
           <ul class="list-group">
-            {% for tps in topics[i.slug] -%}
-                <a href="{{ tps[1]|e }}" class="list-group-item">{{ tps[0] }}</a>
+            {% for article in articles[tpc.slug] -%}
+                <a href="{{ article[1]|e }}" class="list-group-item">{{ article[0] }}</a>
             {% endfor -%}
           </ul>
         </div>

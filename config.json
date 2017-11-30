@@ -1,9 +1,6 @@
 {
     "paths": {
-      "root": "site",
       "html_articles": "topics",
-      "css": "./css",
-      "js": "./js",
       "md_articles": "articles"
     },
     "topics": [
