@@ -8,11 +8,13 @@
   {% for topic in topics|batch(3) %}
     <div class="row">
         {% for tpc in topic -%}
-        <div class="col-md-4">
+        <div class="col-md-4 list-unstyled">
           <h4>{{ tpc.title }}</h4>
-          <ul class="list-group">
+          <ul class="list-group list-unstyled">
             {% for article in articles[tpc.slug] -%}
+                <li>
                 <a href="{{ article[1]|e }}" class="list-group-item">{{ article[0] }}</a>
+                </li>
             {% endfor -%}
           </ul>
         </div>
