@@ -41,10 +41,11 @@ def generate_path_to_md(md_articles_dir, md_article_path):
 
 
 def generate_path_to_html(html_articles_dir, html_article_path):
-    path_to_html_file = os.path.normpath(os.path.join(
+    path_to_html_file = os.path.join(
         html_articles_dir,
         html_article_path.replace('.md', '.html')
-    ))
+    )
+    path_to_html_file = os.path.normpath(path_to_html_file).replace('\\', '/')
     return path_to_html_file
 
 
@@ -84,6 +85,7 @@ if __name__ == '__main__':
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader('templates')
     )
+    make_site()
     server = Server()
     server.watch('articles/**/*.md', make_site)
     server.serve(root='')
