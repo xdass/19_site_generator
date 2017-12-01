@@ -35,7 +35,7 @@ def create_articles_catalog(articles, path):
 def generate_path_to_md(md_articles_dir, md_article_path):
     path_to_md_file = os.path.join(
         md_articles_dir,
-        md_article_path  # article_info['source']
+        md_article_path
     )
     return path_to_md_file
 
@@ -43,7 +43,7 @@ def generate_path_to_md(md_articles_dir, md_article_path):
 def generate_path_to_html(html_articles_dir, html_article_path):
     path_to_html_file = os.path.join(
         html_articles_dir,
-        html_article_path.replace('.md', '.html')  # article_info['source'].replace('.md', '.html')
+        html_article_path.replace('.md', '.html')
     )
     return path_to_html_file
 
@@ -86,4 +86,4 @@ if __name__ == '__main__':
     )
     server = Server()
     server.watch('articles/**/*.md', make_site)
-    server.serve(root='')  # folder to serve html files from
+    server.serve(root='')
