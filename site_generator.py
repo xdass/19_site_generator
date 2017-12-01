@@ -13,39 +13,44 @@ def convert_markdown_to_html(markdown_file):
     return html
 
 
-def load_json_config(json_file):
+def load_json_config(file_path):
     try:
-        with open('config.json', encoding='utf-8') as file:
+        with open(file_path, encoding='utf-8') as file:
             return json.load(file)
     except FileNotFoundError:
         return None
 
 
-def create_articles_catalog(site_config):
-    topics = defaultdict(list)
-    for article in site_config['articles']:
-        html_file_path, md_file_path = create_paths(article)
+def create_articles_catalog(articles, path):
+    topics_info = defaultdict(list)
+    for article in articles:
+        html_file_path = generate_path_to_html(path['html_articles'], article['source'])
+        md_file_path = generate_path_to_md(path['md_articles'], article['source'])
         html = convert_markdown_to_html(md_file_path)
-        topics[article['topic']].append([article['title'], html_file_path])
+        topics_info[article['topic']].append([article['title'], html_file_path])
         create_html_page(html, article['title'], html_file_path)
-    return topics
+    return topics_info
 
 
-def create_paths(article_info):
+def generate_path_to_md(md_articles_dir, md_article_path):
     path_to_md_file = os.path.join(
-        config['paths']['md_articles'],
-        article_info['source']
+        md_articles_dir,
+        md_article_path  # article_info['source']
     )
+    return path_to_md_file
+
+
+def generate_path_to_html(html_articles_dir, html_article_path):
     path_to_html_file = os.path.join(
-        config['paths']['html_articles'],
-        article_info['source'].replace('.md', '.html'),
+        html_articles_dir,
+        html_article_path.replace('.md', '.html')  # article_info['source'].replace('.md', '.html')
     )
-    return path_to_html_file, path_to_md_file
+    return path_to_html_file
 
 
-def create_site_structure():
+def create_site_structure(articles):
     try:
-        for article in config['articles']:
+        for article in articles:
             dirs_path = os.path.split(article['source'])[0]
             os.makedirs(os.path.join('topics', dirs_path), exist_ok=True)
     except FileExistsError:
@@ -59,15 +64,20 @@ def create_html_page(html, title, html_file_path):
         file.write(html_page)
 
 
-def create_index_page(dd, topics_conf):
+def create_index_page(articles_info, topics):
     index_template = env.get_template('index-template.html')
-    html = index_template.render({'title': 'Энциклопедия', 'articles': dd, 'topics': topics_conf})
+    html = index_template.render({'title': 'Энциклопедия', 'articles': articles_info, 'topics': topics})
     with open('index.html', 'w', encoding='utf-8') as file:
         file.write(html)
 
 
-def make_site():
-    pass
+def make_site(config):
+    articles = config['articles']
+    topics = config['topics']
+    paths = config['paths']
+    create_site_structure(articles)
+    articles_info = create_articles_catalog(articles, paths)
+    create_index_page(articles_info, topics)
 
 if __name__ == '__main__':
     # server = Server()
@@ -77,8 +87,5 @@ if __name__ == '__main__':
         loader=jinja2.FileSystemLoader('templates')
     )
     env.globals['static'] = os.getcwd()
-
-    site_config = load_json_config('')
-    create_site_structure()
-    topics_info = create_articles_catalog(site_config)
-    create_index_page(topics_info)
+    site_config = load_json_config('config.json')
+    make_site(site_config)

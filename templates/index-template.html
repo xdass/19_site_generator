@@ -7,7 +7,7 @@
     <hr>
   {% for topic in topics|batch(3) %}
     <div class="row">
-        {% for tpc in topic %}
+        {% for tpc in topic -%}
         <div class="col-md-4">
           <h4>{{ tpc.title }}</h4>
           <ul class="list-group">
