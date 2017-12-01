@@ -13,7 +13,7 @@
           <ul class="list-group list-unstyled">
             {% for article in articles[tpc.slug] -%}
                 <li>
-                <a href="{{ article[1]|e }}" class="list-group-item">{{ article[0] }}</a>
+                <a href="{{ article[1]|e }}" class="list-group-item">{{ article[0]|e }}</a>
                 </li>
             {% endfor -%}
           </ul>
