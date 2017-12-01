@@ -85,7 +85,6 @@ if __name__ == '__main__':
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader('templates')
     )
-    make_site()
     server = Server()
     server.watch('articles/**/*.md', make_site)
     server.serve(root='')
