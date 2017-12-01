@@ -11,6 +11,7 @@ $python pip install -r requirements.txt
 $python site_generator.py
 ```
 <p>Go to this url to browse the site</p>
+
 ```bash
 [I 171201 22:09:21 server:283] Serving on http://127.0.0.1:5500
 [I 171201 22:09:21 handlers:60] Start watching changes
