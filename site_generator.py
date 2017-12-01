@@ -71,21 +71,19 @@ def create_index_page(articles_info, topics):
         file.write(html)
 
 
-def make_site(config):
-    articles = config['articles']
-    topics = config['topics']
-    paths = config['paths']
+def make_site():
+    site_config = load_json_config('config.json')
+    articles = site_config['articles']
+    topics = site_config['topics']
+    paths = site_config['paths']
     create_site_structure(articles)
     articles_info = create_articles_catalog(articles, paths)
     create_index_page(articles_info, topics)
 
 if __name__ == '__main__':
-    # server = Server()
-    # server.watch('articles/*.md', make_site)
-    # server.serve(root='topics/')  # folder to serve html files from
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader('templates')
     )
-    env.globals['static'] = os.getcwd()
-    site_config = load_json_config('config.json')
-    make_site(site_config)
+    server = Server()
+    server.watch('articles/**/*.md', make_site)
+    server.serve(root='')  # folder to serve html files from
