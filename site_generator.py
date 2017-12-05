@@ -18,7 +18,7 @@ def load_json_config(file_path):
         with open(file_path, encoding='utf-8') as file:
             return json.load(file)
     except FileNotFoundError:
-        return None
+        raise FileNotFoundError
 
 
 def create_articles_catalog(articles, path):
@@ -50,12 +50,12 @@ def generate_path_to_html(html_articles_dir, html_article_path):
 
 
 def create_site_structure(articles):
-    try:
-        for article in articles:
+    for article in articles:
             dirs_path = os.path.split(article['source'])[0]
-            os.makedirs(os.path.join('topics', dirs_path), exist_ok=True)
-    except FileExistsError:
-        pass
+            try:
+                os.makedirs(os.path.join('topics', dirs_path), exist_ok=True)
+            except FileExistsError:
+                pass
 
 
 def create_html_page(html, title, html_file_path):
